@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Catalog</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Product Catalog</h1>
+    <nav>
+     <a href="/static/index.html">Home</a>
+    <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <div class="product-controls">
+      <input type="text" id="searchInput" placeholder="Search products...">
+      <button id="addProductBtn">Add Product</button>
+    </div>
+    
+    <div id="productsContainer" class="products-grid"></div>
+    
+    <!-- Add Product Modal -->
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add New Product</h2>
+        <form id="productForm">
+          <div class="form-group">
+            <label for="productName">Name</label>
+            <input type="text" id="productName" required>
+          </div>
+          <div class="form-group">
+            <label for="productDesc">Description</label>
+            <textarea id="productDesc"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input type="number" id="productPrice" step="0.01" required>
+          </div>
+          <button type="submit">Save Product</button>
+        </form>
+      </div>
+    </div>
+  </main>
+  <script src="/static/js/products.js"></script>
+</body>
+</html>
