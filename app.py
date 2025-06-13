@@ -570,7 +570,7 @@ class CartItemResource(Resource):
 # Frontend Serving
 @app.route('/')
 def serve_index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory(app.static_folder, 'static/index.html')
 
 @app.route('/<path:path>')
 def serve_static(path):
