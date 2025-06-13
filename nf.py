@@ -1,3 +1,5 @@
+
+
 from flask import Flask, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import (
@@ -224,17 +226,3 @@ if __name__ == '__main__':
     with app.app_context():
         initialize_database()
     app.run(host='0.0.0.0', port=5000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
