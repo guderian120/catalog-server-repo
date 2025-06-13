@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | CatalogSphere</title>
+  <link rel="stylesheet" href="/static/css/index.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">CatalogSphere</div>
+    <div class="nav-links">
+      <a href="/static/index.html">Home</a>
+      <a href="/static/products.html">Products</a>
+      <div id="authSection">
+        <!-- Dynamically populated -->
+        <a href="/static/login.html" class="btn-outline">Login</a>
+        <a href="/static/signup.html" class="btn-primary">Sign Up</a>
+      </div>
+      <a href="/static/cart.html" class="cart-icon">
+        <i class="fas fa-shopping-cart" style="color: black;"></i>
+        <span id="cartCount">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="product-detail-container">
+    <div class="product-images">
+      <div class="main-image">
+        <img id="mainImage" src="https://via.placeholder.com/600x400?text=Product+Image" alt="Main Product Image">
+      </div>
+    </div>
+
+    <div class="product-info">
+      <h1 id="productName">Product Name</h1>
+      <div class="price" id="productPrice">$0.00</div>
+      <div class="rating">
+        <span class="stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </span>
+        <span class="review-count">(24 reviews)</span>
+      </div>
+      <p class="description" id="productDescription">Product description goes here...</p>
+      
+      <div class="product-actions">
+        <div class="quantity-selector">
+          <button class="quantity-btn" id="decreaseQty">-</button>
+          <input type="number" id="quantity" value="1" min="1">
+          <button class="quantity-btn" id="increaseQty">+</button>
+        </div>
+        <button class="btn-primary" id="addToCartBtn">Add to Cart</button>
+      </div>
+
+      <div class="product-meta">
+        <div class="meta-item">
+          <i class="fas fa-box"></i>
+          <span>In Stock</span>
+        </div>
+        <div class="meta-item">
+          <i class="fas fa-shield-alt"></i>
+          <span>2-Year Warranty</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="product-reviews">
+    <h2>Customer Reviews</h2>
+    <div class="reviews-container">
+      <!-- Reviews would be dynamically loaded here -->
+      <div class="review">
+        <div class="review-header">
+          <div class="review-author">John D.</div>
+          <div class="review-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        <p class="review-text">This product exceeded my expectations. The quality is outstanding!</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 CatalogSphere. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/js/products_view.js"></script>
+</body>
+</html>

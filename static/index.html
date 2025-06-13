@@ -3,24 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Commerce Home</title>
-  <link rel="stylesheet" href="/static/css/style.css">
+  <title>CatalogSphere</title>
+  <link rel="stylesheet" href="/static/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <header>
-    <h1>Welcome to Our Store</h1>
-    <nav>
-      <a href="/static/login.html">Login</a>
-      <a href="/static/signup.html">Sign Up</a>
-      <a href="/static/products.html">Browse Products</a>
-    </nav>
+  <!-- Hero Section -->
+  <header class="hero">
+<nav class="navbar">
+  <div class="logo">CatalogSphere</div>
+  <div class="nav-links">
+    <a href="#featured">Products</a>
+    <div id="authSection">
+      <!-- This will be dynamically populated by JavaScript -->
+      <a href="/static/login.html" class="btn-outline">Login</a>
+      <a href="/static/signup.html" class="btn-primary">Sign Up</a>
+    </div>
+    <a href="/static/cart.html" class="cart-icon">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCount">0</span>
+    </a>
+  </div>
+</nav>
+    
+    <div class="hero-content">
+      <h1>Discover Amazing Products</h1>
+      <p>Shop the latest collection at unbeatable prices</p>
+      <a href="#featured" class="btn-primary">Browse Now</a>
+    </div>
   </header>
-  <main>
-    <section class="hero">
-      <h2>Discover Amazing Products</h2>
-      <p>Shop the best deals on quality items</p>
-    </section>
-  </main>
-  <script src="/static/js/main.js"></script>
+
+  <!-- Featured Products -->
+  <section id="featured" class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-grid" id="featuredProducts"></div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta">
+    <div class="cta-content">
+      <h2>Ready to Shop?</h2>
+      <p>Create an account to start adding items to your cart</p>
+       <div id="authSection2">
+        <!-- Dynamically populated -->
+        <a href="/static/login.html" class="btn-outline">Login</a>
+        <a href="/static/signup.html" class="btn-primary">Sign Up</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 CatalogSphere. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/js/home.js"></script>
 </body>
 </html>

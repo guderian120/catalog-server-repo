@@ -62,16 +62,26 @@ function displayProducts(products) {
     return;
   }
   
+  const isAdmin = getCurrentUserRole() === 'admin';
+  const isLoggedIn = !!localStorage.getItem('accessToken');
+
   products.forEach(product => {
     const productCard = document.createElement('div');
     productCard.className = 'product-card';
+    
+    let buttons = '';
+    if (isAdmin) {
+      buttons = `<button onclick="deleteProduct(${product.id})">Delete</button>`;
+    } else if (isLoggedIn) {
+      buttons = `<button onclick="addToCart(${product.id})">Add to Cart</button>`;
+    }
+
     productCard.innerHTML = `
       <h3>${product.name}</h3>
       <p>${product.description || 'No description available'}</p>
       <p class="product-price">$${product.price.toFixed(2)}</p>
       <p><small>Added by: ${product.owner || 'Unknown'}</small></p>
-      ${product.user_id === getCurrentUserId() ? 
-        `<button onclick="deleteProduct(${product.id})">Delete</button>` : ''}
+      ${buttons}
     `;
     productsContainer.appendChild(productCard);
   });
@@ -128,7 +138,7 @@ productForm?.addEventListener('submit', async (e) => {
       loadProducts();
     } else {
       const error = await response.json();
-      alert('Error: ' + error);
+      alert('Error: ' + error.error);
       console.error('Error adding product:', error);
     }
   } catch (error) {
@@ -194,6 +204,49 @@ function getCurrentUserId() {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.sub; // Assuming the user ID is in the 'sub' claim
+  } catch (error) {
+    return null;
+  }
+}
+
+
+
+async function addToCart(productId) {
+  if (!localStorage.getItem('accessToken')) {
+    alert('Please login to add items to cart');
+    window.location.href = '/static/login.html';
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      },
+      body: JSON.stringify({ product_id: productId })
+    });
+
+    if (response.ok) {
+      alert('Product added to cart!');
+    } else {
+      const error = await response.json();
+      alert('Error: ' + error.error);
+    }
+  } catch (error) {
+    alert('Failed to add to cart. Please try again.');
+  }
+}
+// Add this helper function
+function getCurrentUserRole() {
+  const token = localStorage.getItem('accessToken');
+  if (!token) return null;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    // You'll need to include the role in the JWT payload when logging in
+    return payload.role;
   } catch (error) {
     return null;
   }
