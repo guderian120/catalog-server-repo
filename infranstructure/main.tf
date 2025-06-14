@@ -9,6 +9,7 @@ data "template_file" "user_data" {
     db_user     = "admin"
     db_password = "admin123"
     db_url = "mysql+pymysql://admin:admin123@mysql-container:3306/catalog"
+    jwt_secret_key = "_EOmNZKe-bnKWeP6qsL4z7F58Mt0QO3VA-VlaaowkwA"
   }
 }
 
@@ -18,7 +19,7 @@ resource "aws_instance" "catalog_server" {
   subnet_id = aws_subnet.catalog_subnet.id
   vpc_security_group_ids = [ aws_security_group.catalog_sg.id ]
   associate_public_ip_address = true
-  instance_type = "t2.nano"
+  instance_type = "t2.medium"
   user_data = data.template_file.user_data.rendered
 }   
 
@@ -44,6 +45,12 @@ resource "aws_security_group" "catalog_sg" {
   ingress {
     from_port = 80
     to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+   ingress {
+    from_port = 443
+    to_port = 443
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
