@@ -12,15 +12,15 @@ from datetime import timedelta
 app = Flask(__name__)
 
 # Configuration
-# app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-#     "DATABASE_URL",
-#     "mysql+pymysql://admin:admin123@mysql-container:3306/catalog"  
-# )
-
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
     "DATABASE_URL",
-    "sqlite:///catalog.db"
+    "mysql+pymysql://admin:admin123@mysql-container:3306/catalog"  
 )
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+#     "DATABASE_URL",
+#     "sqlite:///catalog.db"
+# )
 # For production, you can use MySQL or PostgreSQL by changing the URI accordingly
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "_EOmNZKe-bnKWeP6qsL4z7F58Mt0QO3VA-VlaaowkwA")
@@ -32,21 +32,24 @@ jwt = JWTManager(app)
 
 # Models
 class User(db.Model):
+    print("Initializing User model")
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    
     products = db.relationship('Product', backref='owner', lazy=True)
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
+        self.password_hash = password
+        # print(f"Password hash length: {len(self.password_hash)}")  # Debugging line to check password length
+        
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return password
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(512), nullable=False)
     description = db.Column(db.Text)
     price = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -56,17 +59,19 @@ class Product(db.Model):
 def initialize_database():
     try:
         db.create_all()
-        # Create admin user if not exists
         if not User.query.filter_by(username="admin").first():
             admin = User(username="admin", email="admin@example.com")
-            admin.set_password("admin123")
+            admin.set_password("admin123")  # Use a secure password
+           
             db.session.add(admin)
             db.session.commit()
         print("✅ Database initialized successfully.")
     except Exception as e:
-        print(f"❌ Database not ready yet: {e}")
-        raise e
-
+        db.session.rollback()  # IMPORTANT: rollback before retry
+        print(f"❌ Database not ready or failed init: {e}")
+        raise
+    finally:
+        db.session.close()
 # Authentication routes
 
 
@@ -223,7 +228,7 @@ def serve(path):
 if __name__ == '__main__':
     with app.app_context():
         initialize_database()
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)  # Set debug=False in production
 
 
 
