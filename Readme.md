@@ -175,7 +175,7 @@ mkdir -p /usr/local/lib/docker/cli-plugins
 curl -SL https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-# --- Set environment variables (Replace these if passed dynamically or injected via EC2 UserData) ---
+# --- Set environment variables ---
 DB_NAME="${db_name}"
 DB_USER="${db_user}"
 DB_PASS="${db_password}"
